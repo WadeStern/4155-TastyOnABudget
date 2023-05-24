@@ -9,7 +9,7 @@ Finally run ```npm start``` now the front end is working
 Server:  
 Make a new powershell and navigate to server with ```cd server```  
 run ```pip install "fastapi[all]"```  
-pip3 install python-jose
+```pip3 install python-jose```
 start api server ```python -m uvicorn main:app  --reload --host 0.0.0.0 --port 7200```  
 
 Database:
