@@ -20,3 +20,6 @@ Navigate to
 ```C:\Program Files\MariaDB 10.11\bin```
 open a cmd prompt
 ```mariadb.exe -u dbuser -p tasty < ~pathto\4155-TastyOnABudget\RecipieDB-dump.sql\RecipieDB-dump.sql```
+
+
+Docker Image build command: docker build . -t react
