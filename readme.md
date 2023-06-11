@@ -23,3 +23,4 @@ open a cmd prompt
 
 
 Docker Image build command: docker build . -t react
+Docker run image for client docker run --hostname=3f52b779d693 --env=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin --env=NODE_VERSION=20.3.0 --env=YARN_VERSION=1.22.19 --env=NODE_ENV=development --workdir=/react-app --runtime=runc -dp 3000:3000 react:latest
