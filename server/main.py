@@ -19,7 +19,9 @@ from sqlalchemy.sql import text
 import json
 
 
-engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@localhost:3306/tasty")
+engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:dbuser@localhost:3306/tasty")
+#engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@localhost:3306/tasty")
+#engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@192.168.2.170:3306/tasty")
 Base = declarative_base()
 Session = sqlalchemy.orm.sessionmaker()
 Session.configure(bind=engine)
@@ -53,7 +55,7 @@ class LoginModel(BaseModel):
     username: str
     password: str
 
-class Recipe(Base):
+class recipe(Base):
     __tablename__ = 'recipe'
     id = sqlalchemy.Column(sqlalchemy.String(length=100), primary_key=True)
     title = sqlalchemy.Column(sqlalchemy.String(length=100))
@@ -66,7 +68,7 @@ class Recipe(Base):
     tags = sqlalchemy.Column(sqlalchemy.String(length=100))
 
 class UserSurveyDataSQL(Base):
-    __tablename__ = 'userData'
+    __tablename__ = 'userdata'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     users_id = mapped_column(ForeignKey("users.id"))
     parent = relationship("User", back_populates="children")
@@ -91,13 +93,13 @@ class UserSurveyData(BaseModel):
     activity_level: str
 
 
-class LikedRecipies(Base):
+class likedrecipies(Base):
     __tablename__ = 'likedrecipies'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
     recipie_id = sqlalchemy.Column(sqlalchemy.String(length=100))
 
-class DislikedRecipies(Base):
+class dislikedrecipies(Base):
     __tablename__ = 'dislikedrecipies'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     user_id = sqlalchemy.Column(sqlalchemy.Integer)
@@ -245,7 +247,7 @@ async def like_recipie(payload: dict = Body(...)):
         session.execute(crud,  {'user_id': payload["userId"], 'recipie_id': payload["recipieId"]})
         session.commit()
         return
-    newLike  = LikedRecipies(user_id = payload["userId"], recipie_id = payload["recipieId"])
+    newLike  = likedrecipies(user_id = payload["userId"], recipie_id = payload["recipieId"])
     session.add(newLike)
     session.commit()
 
@@ -273,7 +275,7 @@ async def dislike_recipie(payload: dict = Body(...)):
         session.execute(crud,  {'user_id': payload["userId"], 'recipie_id': payload["recipieId"]})
         session.commit()
         return
-    newLike  = DislikedRecipies(user_id = payload["userId"], recipie_id = payload["recipieId"])
+    newLike  = dislikedrecipies(user_id = payload["userId"], recipie_id = payload["recipieId"])
     session.add(newLike)
     session.commit()
 
@@ -282,10 +284,10 @@ async def read_own_items(current_user: User = Depends(get_current_active_user)):
     return [{"item_id": "Foo", "owner": current_user.username}]
 
 @app.get("/recipes")
-async def getRecipes():
+async def getrecipes():
     query = text("SELECT recipe.id,title,steps,nutrition,description,servings,thumbnail,ingredients,tags,"\
-    "group_concat(dislikedrecipies.user_id) as isDislikedRecipe,"\
-    "group_concat(likedrecipies.user_id) as isLikedRecipe"\
+    "group_concat(dislikedrecipies.user_id) as isdislikedrecipe,"\
+    "group_concat(likedrecipies.user_id) as islikedrecipe"\
     "FROM recipe"\
     "LEFT JOIN dislikedrecipies"\
     "ON recipe.id = dislikedrecipies.recipie_id"\
@@ -295,7 +297,7 @@ async def getRecipes():
     return(session.execute(query))
 
 @app.get("/recipes/reccomended/{username}")
-async def getRecipesforUser(username : str):
+async def getrecipesforUser(username : str):
     current_user = get_user(username)
     userdata = (session.query(UserSurveyDataSQL).filter(current_user.id == UserSurveyDataSQL.users_id).first())
     ret = None
@@ -316,7 +318,7 @@ async def getRecipesforUser(username : str):
                          LEFT JOIN likedrecipies ON recipe.id = likedrecipies.recipie_id  \
                          WHERE nutrition REGEXP '\"calories\":([1-9][0-9]{0,2}|[0-9]{1,2})' \
                          AND JSON_EXTRACT(nutrition, '$.calories') BETWEEN "+str(calorieslower)+" AND "+str(caloriesupper)+" \
-                         AND recipe.id NOT IN (SELECT recipie_id FROM dislikedRecipies WHERE user_id = "+str(userdata.users_id)+") \
+                         AND recipe.id NOT IN (SELECT recipie_id FROM dislikedrecipies WHERE user_id = "+str(userdata.users_id)+") \
                          GROUP BY recipe.id ORDER BY RAND() Limit "+ str(userdata.num_days) +";")
             result = session.execute(query)
             ret = result.mappings().all()
@@ -343,15 +345,15 @@ async def getLikedRecipes(username : str):
 
 
 @app.get("/recipes/{id}")
-async def getRecpies(id):
-    return(session.query(Recipe).filter(Recipe.id == id).first())
+async def getrecipes(id):
+    return(session.query(recipe).filter(recipe.id == id).first())
     
 @app.get("/recipes/{tags}")
-async def getRecipes(tags):
-    return(session.query(Recipe).all().filter(Recipe.tags.like(tags)))
+async def getrecipes(tags):
+    return(session.query(recipe).all().filter(recipe.tags.like(tags)))
 
 @app.get("/recipes/num/{num}")
-async def getRecipes(num):
+async def getrecipes(num):
     query=text(
     "SELECT recipe.id,title,steps,nutrition,description,servings,thumbnail,ingredients,tags, "\
     "group_concat(dislikedrecipies.user_id) as dislikedBy, "\
@@ -370,7 +372,7 @@ async def getRecipes(num):
     return(ret)
 
 @app.get("/recipes/searchtitle/{searchval}")
-async def searchRecipes(searchval):
+async def searchrecipes(searchval):
     if not searchval:
         raise HTTPException(status_code=400, detail="Empty Search")
     sqlText = text("SELECT recipe.id,title,steps,nutrition,description,servings,thumbnail,ingredients,tags, "\
@@ -388,7 +390,7 @@ async def searchRecipes(searchval):
     return(ret)
 
 @app.get("/recipes/searchtags/{searchval}")
-async def searchRecipes(searchval):
+async def searchrecipes(searchval):
     if not searchval:
         raise HTTPException(status_code=400, detail="Empty Search")
     sqlText = text("SELECT recipe.id,title,steps,nutrition,description,servings,thumbnail,ingredients,tags, "\

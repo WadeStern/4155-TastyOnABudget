@@ -148,15 +148,17 @@ function Home() {
                             This Week's Meals
                         </Typography>
                         <div>
+                    if(recipe !=){
                         <div>
                     <Grid style={{ marginTop: "20px", marginBottom: "20px" }}>
                         <Grid container>
                             <Grid item xs={12} style={{ marginTop: "20px", marginBottom: "20px" }}>
                                 <Card variant='outlined' style={{ width: '80%', padding: "20px 5px ", margin: "0 auto" }}>
                                     <Grid container spacing={2} direction="row" >
-                                        {suggestedRecipes.map((recipe) => (
+                                            {suggestedRecipes.map((recipe) => (
                                             <RecipeCard recipe={recipe} numCards={3} user={user} />
                                         ))}
+
                                     </Grid>
                                 </Card>
                             </Grid>
@@ -164,7 +166,7 @@ function Home() {
                     </Grid>
                 </div>
 
-
+                }                                 
                 </div>
                     </Grid>
                 </div>
