@@ -1,6 +1,8 @@
 import axios from "axios";
 
-let server_url = "http://localhost:7200/"
+
+let server_url = "http://192.168.2.170:7200/"
+//let server_url = "http://172.17.0.1:7200/"
 
 class restAPI {
     checkEnv() {

@@ -1,7 +1,7 @@
-FROM nikolaik/python-nodejs:python3.10-nodejs18
+FROM python:3.10
 ADD main.py .
 COPY requirements.txt ./
-RUN 
+
 RUN pip3 install mariadb==1.0.7
 RUN pip install "fastapi[all]"
 RUN pip install -r requirements.txt

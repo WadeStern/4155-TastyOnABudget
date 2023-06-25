@@ -26,7 +26,6 @@ function Home() {
                 return String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16));
             });
     }
-
     const recipieget = (user) => {
         RestAPI.getCustomRecipies(user.username).then((res) => {
             setSuggestedRecipes([])
@@ -148,7 +147,6 @@ function Home() {
                             This Week's Meals
                         </Typography>
                         <div>
-                    if(recipe !=){
                         <div>
                     <Grid style={{ marginTop: "20px", marginBottom: "20px" }}>
                         <Grid container>
@@ -164,9 +162,7 @@ function Home() {
                             </Grid>
                         </Grid>
                     </Grid>
-                </div>
-
-                }                                 
+                </div>                                
                 </div>
                     </Grid>
                 </div>

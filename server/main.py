@@ -19,7 +19,7 @@ from sqlalchemy.sql import text
 import json
 
 
-engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:dbuser@localhost:3306/tasty")
+engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@192.168.2.170:3306/tasty")
 #engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@localhost:3306/tasty")
 #engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@192.168.2.170:3306/tasty")
 Base = declarative_base()
@@ -118,13 +118,13 @@ app = FastAPI()
 
 
 origins = [
-    "http://localhost:3000",
-    "localhost:3000"
+    "http://192.168.2.170:3000",
+    "192.168.2.170:3000"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
