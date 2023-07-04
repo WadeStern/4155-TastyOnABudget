@@ -1,8 +1,9 @@
 import axios from "axios";
 
-
+//let server_url = "http://be-entrypoint.default.svc.cluster.local:7200/"
 let server_url = "http://192.168.2.170:7200/"
 //let server_url = "http://172.17.0.1:7200/"
+//let server_url ="http://localhost:30001"
 
 class restAPI {
     checkEnv() {
@@ -133,6 +134,15 @@ class restAPI {
         return axios.put(restEndPoint,json,{
             headers:{
                 'Content-Type': 'application/json'
+            }
+        })
+    }
+    checkpython(){
+        const endpoint = "python";
+        let restEndPoint = server_url + endpoint;
+        return axios.get(restEndPoint,{
+            headers: {
+              'Content-Type': 'application/json'
             }
         })
     }

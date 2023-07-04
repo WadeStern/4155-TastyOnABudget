@@ -19,9 +19,9 @@ from sqlalchemy.sql import text
 import json
 
 
-engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@192.168.2.170:3306/tasty")
+engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@tastydb.cztaefsxo74p.us-east-2.rds.amazonaws.com:3306/tasty")
 #engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@localhost:3306/tasty")
-#engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@192.168.2.170:3306/tasty")
+#engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@192.168.2.170:3306/tasty")
 Base = declarative_base()
 Session = sqlalchemy.orm.sessionmaker()
 Session.configure(bind=engine)
