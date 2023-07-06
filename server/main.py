@@ -166,6 +166,9 @@ def create_access_token(user: UserLoginData, expires_delta: timedelta | None = N
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+def hello_world():
+    return "hello world"
+
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -418,3 +421,6 @@ async def putUserSurveyData(user: UserSurveyData):
     session.commit()
     
 
+@app.get("/python")
+async def hello_world():
+    return("Hello World")

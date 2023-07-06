@@ -14,6 +14,7 @@ import LikedRecipes from './pages/LikedRecipes'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
+import pythontest from './pages/pythontest'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path='/privacypolicy' element={<PrivacyPolicy />} />
           <Route path='/termsofuse' element={<TermsOfUse />} />
           <Route path='/likedrecipes' element={<LikedRecipes />} />
+          <Route path='/pythontest' element={<pythontest />} />
 
         </Routes>
         <Footer />
