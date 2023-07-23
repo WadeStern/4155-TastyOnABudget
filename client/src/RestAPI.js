@@ -145,6 +145,7 @@ class restAPI {
               'Content-Type': 'application/json'
             }
         })
+        .then(res => res.data);
     }
 
 }

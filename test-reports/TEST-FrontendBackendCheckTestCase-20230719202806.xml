@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<testsuite name="FrontendBackendCheckTestCase-20230719202806" tests="1" time="3.900" failures="0" errors="0">
+	<testcase classname="FrontendBackendCheckTestCase" name="test_frontend_backend" time="3.900"/>
+	<system-out><![CDATA[]]></system-out>
+	<system-err><![CDATA[]]></system-err>
+</testsuite>

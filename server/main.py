@@ -18,9 +18,9 @@ from typing import List
 from sqlalchemy.sql import text
 import json
 
-
+#engine = sqlalchemy.create_engine("mysql+pymysql://tempwade:password@23.229.227.36:3306/tastyonabudget")
 engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@tastydb.cztaefsxo74p.us-east-2.rds.amazonaws.com:3306/tasty")
-#engine = sqlalchemy.create_engine("mariadb+mariadbconnector://dbuser:gj=wvK?L5Ck9+L&K7zbaKz=@localhost:3306/tasty")
+#engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@db5013654841.hosting-data.io")
 #engine = sqlalchemy.create_engine("mariadb+mariadbconnector://temp:password@192.168.2.170:3306/tasty")
 Base = declarative_base()
 Session = sqlalchemy.orm.sessionmaker()
@@ -333,7 +333,6 @@ async def getrecipesforUser(username : str):
 async def getLikedRecipes(username : str):
     current_user = get_user(username)
     userdata = (session.query(User).filter(current_user.id == User.id).first())
-    print(userdata)
     ret = None
     query = text("SELECT recipe.id,title,steps,nutrition,description,servings,thumbnail,ingredients,tags, "\
                 "group_concat(likedrecipies.user_id) as likedBy "\
@@ -423,4 +422,5 @@ async def putUserSurveyData(user: UserSurveyData):
 
 @app.get("/python")
 async def hello_world():
-    return("Hello World")
+    hworld = "Hello World"
+    return {hworld}

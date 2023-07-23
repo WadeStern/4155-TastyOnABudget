@@ -11,11 +11,14 @@ newUser = User(username = "testuser", password = "Testpass", email = "TestEmail"
 if (len(session.query(User).filter(User.username == newUser.username).all())==0):
         session.add(newUser)
         session.commit()
-
+        
+def test_remove_test_cases():
+    response = client.put("/removetests")
+    assert response.status_code == 200
 
 def test_add_user():
     # Test case: create a new user
-    data = UserLoginData(username = "Testusermain", password = "Testpass", email = "TestEmailmain", firstName = "TestFname")
+    data = UserLoginData(username = "testuser", password = "Testpass", email = "TestEmailmain", firstName = "TestFname")
     response = client.put("/addUser", json=data.__dict__)
     assert response.status_code == 200
     assert response.json() == {"detail": "Succ"}
@@ -23,14 +26,14 @@ def test_add_user():
          
 def test_overlapping_email():
     # Test case: create user with duplicate email
-    data = UserLoginData(username = "Testusermain1", password = "Testpass1", email = "TestEmailmain", firstName = "TestFname1")
+    data = UserLoginData(username = "testuser1", password = "Testpass1", email = "TestEmailmain", firstName = "TestFname1")
     response = client.put("/addUser", json=data.__dict__)
     assert response.status_code == 400
     assert response.json() == {"detail": "double email"}
 
 def test_overlapping_user():
     # Test case: create user with duplicate username
-    data = UserLoginData(username = "Testusermain", password = "Testpass1", email = "TestEmail1", firstName = "TestFname1")
+    data = UserLoginData(username = "testuser", password = "Testpass1", email = "TestEmail1", firstName = "TestFname1")
     response = client.put("/addUser", json=data.__dict__)
     assert response.status_code == 400
     assert response.json() == {"detail": "double user"}
@@ -59,7 +62,7 @@ def test_firstName_duplicate():
 def test_putUserSurveyData():
     # Test case: create user survey with all values entered 
     data = UserSurveyData(
-    userID= 1,
+    userID= 67,
     calorie_goal= "2",
     gender= "male",
     height= "3",
@@ -74,7 +77,7 @@ def test_putUserSurveyData():
 def test_putUserSurveyDataEmptyVals():
     # Test case: create user survey with all empty values
     data = UserSurveyData(
-    userID= 1,
+    userID= 67,
     calorie_goal= "",
     gender= "",
     height= "",
@@ -115,6 +118,10 @@ def test_searchRecipesTagNoRecords():
     # Test case: search with a search value containing records
     response = client.get("/recipes/searchtags/nonexistentrecord")
     assert response.status_code == 200
+
+
+
+
 
 
 
