@@ -1,4 +1,4 @@
-Out of date
+**Out of date**
 See TastyFrontend and TastyBackend for up to date code.
 
 
