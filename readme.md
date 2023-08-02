@@ -1,3 +1,6 @@
+Out of date
+See TastyFrontend and TastyBackend for up to date code.
+
 
 Client:
 First install NodeJS (https://nodejs.org/en/download/) and Python3 then restart your computer  
